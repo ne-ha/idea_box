@@ -35,17 +35,10 @@ class IdeaBoxApp < Sinatra::Base
     erb :edit, locals: {id: id, idea: idea}
   end
 
-  put '/:id' do |id|
-    data = {
-      :title => params['idea_title'],
-      :description => params['idea_description']
-    }
-    Idea.update(id.to_i, data)
-    redirect '/'
-  end
-
-
-
+ put '/:id' do |id|
+  Idea.update(id.to_i, params[:idea])
+  redirect '/'
+end
 
 
 end
