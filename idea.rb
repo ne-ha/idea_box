@@ -8,10 +8,23 @@ class Idea
   end
 
   def self.all
+    raw_ideas.map do |data|
+      new(data[:title], data[:description])
+    end
+  end
+
+  def self.raw_ideas
     database.transaction do |db|
       db['ideas'] || []
+    end
   end
-  
+
+  def self.delete(position)
+    database.transaction do
+      database['ideas'].delete_at(position)
+    end
+  end
+
   def save
     database.transaction do |db|
       db['ideas'] ||= []
